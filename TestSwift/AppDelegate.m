@@ -20,7 +20,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window = [self windowFromStoryboard:@"Storyboard" onScreen:[UIScreen mainScreen]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -63,6 +63,20 @@
         } 
     }
 }
+
+- (UIWindow*) windowFromStoryboard: (NSString*) storyboardName
+                          onScreen: (UIScreen*) screen
+{
+    UIWindow *window = [[UIWindow alloc] initWithFrame:[screen bounds]];
+    window.screen = screen;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
+    UIViewController *myViewController = (UIViewController *)[storyboard instantiateInitialViewController];
+    window.rootViewController = myViewController;
+
+    return window;
+}
+
 
 #pragma mark - Core Data stack
 
